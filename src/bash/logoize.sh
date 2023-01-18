@@ -3,8 +3,7 @@
 # Logoize options
 input=${input:-null}
 logo=${logo:-null}
-output=${output:-${input}}
-output_dir=${output_dir:-./logoize}
+output=${output:-null}
 format=${format:-png}
 gravity=${gravity:-southeast}
 geometry=${geometry:-+25+25}
@@ -22,30 +21,36 @@ done
 # Input validation
 if [ ${logo} == "null" ]; then
   echo "Input Error: --logo is required"
-  echo "      Usage: ./logoize.sh --logo /path/to/mylogo.png"
+  echo "      Usage: ./logoize.sh --logo mylogo.png"
   exit 1
 fi
 
 if [ ${input} == "null" ]; then
   echo "Input Error: --input is required"
-  echo "      Usage: ./logoize.sh --input /path/to/myimage.png"
+  echo "      Usage: ./logoize.sh --input myimage.png"
   exit 1
 fi
 
-# startup banner
+if [ ${output} == "null" ]; then
+  echo "Input Error: --output is required"
+  echo "      Usage: ./logoize.sh --output myimage-logoized.png"
+  exit 1
+fi
+
+# Startup banner
 echo "= merlin > logoize ==================================================="
 echo "  logo:       ${logo}"
 echo "  input:      ${input}"
-echo "  output_dir: ${output_dir}"
-echo "  output:     ${output_dir}/${output}"
+echo "  output:     ${output}"
 echo "  format:     ${format}"
+echo "  gravity:    ${gravity}"
+echo "  geometry:   ${geometry}"
 echo "  date:       ${date}"
 echo "======================================================================"
 
-#mkdir -p ${output_dir}
-#
-#convert ${input} ${logo} \
-#  -gravity ${gravity} \
-#  -geometry ${geometry} \
-#  -format ${format} \
-#  -composite ${output_dir}/${output}
+# Imagemagick convert function to add logo
+convert ${input} ${logo} \
+  -gravity ${gravity} \
+  -geometry ${geometry} \
+  -format ${format} \
+  -composite ${output}

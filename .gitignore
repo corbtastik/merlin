@@ -27,3 +27,4 @@
 output-images/
 source-images/
 logo-test/output/
+test/bash/*.png
