@@ -1,6 +1,6 @@
 # Merlin
 
-A collection of image manipulation utilities, many of which use Imagemagick.
+A collection of image manipulation utilities, most of which use Imagemagick.
 
 * Merlin can be used as a container via Podman or Docker.
 
