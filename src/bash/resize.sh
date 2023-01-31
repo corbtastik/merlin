@@ -16,6 +16,7 @@ OUTPUT_DIR=../../output-images
 # $1: Source image file as a path
 #------------------------------------------------------------------------------
 resizeOne() {
+  local logo=../../images/logo.png
   local source_image=$1
   local landscape_width=$2
   local landscape_height=$3
@@ -49,6 +50,13 @@ resizeOne() {
           -extent ${landscape_width}x${landscape_height} \
           ${OUTPUT_DIR}/${file_name}-${landscape_width}x${landscape_height}.${file_ext}
       echo "Resized complete: ${OUTPUT_DIR}/${file_name}-${landscape_width}x${landscape_height}.${file_ext}"
+
+      # Imagemagick convert function to add logo
+      convert ${OUTPUT_DIR}/${file_name}-${landscape_width}x${landscape_height}.${file_ext} ${logo} \
+        -gravity southeast \
+        -geometry +25+25 \
+        -format ${file_ext} \
+        -composite ${OUTPUT_DIR}/${file_name}-logoized.${file_ext}
   else
       echo "Source image ${source_image} is portrait orientation, resizing to ${portrait_width}x${portrait_height}"
       convert ${source_image} \
@@ -57,6 +65,13 @@ resizeOne() {
           -extent ${portrait_width}x${portrait_height} \
           ${OUTPUT_DIR}/${file_name}-${portrait_width}x${portrait_height}.${file_ext}
       echo "Resized complete: ${OUTPUT_DIR}/${file_name}-${portrait_width}x${portrait_height}.${file_ext}"
+
+      # Imagemagick convert function to add logo
+      convert ${OUTPUT_DIR}/${file_name}-${portrait_width}x${portrait_height}.${file_ext} ${logo} \
+        -gravity southeast \
+        -geometry +25+25 \
+        -format ${file_ext} \
+        -composite ${OUTPUT_DIR}/${file_name}-logoized.${file_ext}
   fi
 }
 
