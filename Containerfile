@@ -24,3 +24,5 @@ RUN microdnf update -y && \
     curl -OL https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64 && \
     mv yq_linux_amd64 /usr/local/bin/yq && \
     chmod 755 /usr/local/bin/yq
+
+
