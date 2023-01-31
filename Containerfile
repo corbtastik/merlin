@@ -11,6 +11,8 @@ LABEL description="Merlin image manipulation with Imagemagick"
 ARG JQ_VERSION="jq-1.6"
 ARG YQ_VERSION="v4.30.8"
 
+COPY ./src /merlin
+
 RUN microdnf update -y && \
     microdnf install which gzip tar git make -y && \
     microdnf install gcc -y && \
@@ -23,6 +25,7 @@ RUN microdnf update -y && \
     chmod 755 /usr/local/bin/jq && \
     curl -OL https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64 && \
     mv yq_linux_amd64 /usr/local/bin/yq && \
-    chmod 755 /usr/local/bin/yq
+    chmod 755 /usr/local/bin/yq && \
+    chmod 755 /merlin/bash/*.sh
 
 
