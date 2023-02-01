@@ -11,12 +11,6 @@ A collection of image manipulation utilities, most of which use Imagemagick.
 ## Scratch Notes
 
 ```bash
-# convert to grayscale
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace Gray -format "%[fx:quantumrange*image.mean]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace Gray -format "%[mean]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace Gray -format "%[fx:image.mean]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace gray -resize 1x1 -format "%[pixel:p{0,0}]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace Gray -resize 1x1 -format "%[pixel:p{0,0}]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -colorspace Gray -scale 1x1! -format "%[pixel:s.p{0,0}]" info:
-convert ./crater-lake-x824-y668-w200-h100.png -format "%[mean]" info:
+# I like this one
+convert ./images/crop/welcome-to-marfa-crop-150x90+0+0.png -format "%[fx:255*mean]" info: 
 ```
