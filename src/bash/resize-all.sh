@@ -31,13 +31,13 @@ echo "======================================================================="
 #------------------------------------------------------------------------------
 if [ ${input_dir} == "null" ]; then
   echo "Input Error: --input_dir is required"
-  echo "      Usage: ./resize-all.sh --input_dir /dir/of/images"
+  echo "      Usage: resize-all.sh --input_dir /dir/of/images"
   exit 1
 fi
 
 if [ ${output_dir} == "null" ]; then
   echo "Input Error: --output_dir is required"
-  echo "      Usage: ./resize-all.sh --output_dir /tmp/images"
+  echo "      Usage: resize-all.sh --output_dir /tmp/images"
   exit 1
 fi
 #------------------------------------------------------------------------------
@@ -48,6 +48,6 @@ image_list=(${input_dir}/*)
 for ((i=0; i<${#image_list[@]}; i++)); do
     #do something to each element of array
     echo "Start resizing: ${image_list[$i]}"
-    ./resize-one.sh --image ${image_list[$i]} --output_dir ${output_dir}
+    resize-one.sh --image ${image_list[$i]} --output_dir ${output_dir}
     echo "Complete resizing: ${image_list[$i]}"
 done

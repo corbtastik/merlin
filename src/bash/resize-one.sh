@@ -47,13 +47,13 @@ echo "======================================================================="
 #------------------------------------------------------------------------------
 if [ ${image} == "null" ]; then
   echo "Input Error: --image is required"
-  echo "      Usage: ./resize-one.sh --image myimage.png"
+  echo "      Usage: resize-one.sh --image myimage.png"
   exit 1
 fi
 
 if [ ${output_dir} == "null" ]; then
   echo "Input Error: --output_dir is required"
-  echo "      Usage: ./resize-one.sh --output_dir /tmp/images"
+  echo "      Usage: resize-one.sh --output_dir /tmp/images"
   exit 1
 fi
 #------------------------------------------------------------------------------
