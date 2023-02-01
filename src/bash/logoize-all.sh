@@ -1,9 +1,10 @@
 #!/bin/bash
 #------------------------------------------------------------------------------
-# Options for resize-all
+# Options for logoize-all
 #------------------------------------------------------------------------------
 input_dir=${input_dir:-null}
 output_dir=${output_dir:-null}
+logo=${logo:-null}
 #------------------------------------------------------------------------------
 # Parse input options
 #------------------------------------------------------------------------------
@@ -19,25 +20,32 @@ done
 #------------------------------------------------------------------------------
 date=${date:-$(date +%Y-%m-%d)}
 #------------------------------------------------------------------------------
-# Print resize-all options
+# Print logoize-all options
 #------------------------------------------------------------------------------
-echo "= merlin > resize-all ================================================="
-echo "  input_dir:        ${input_dir}"
-echo "  output_dir:       ${output_dir}"
-echo "  date:             ${date}"
+echo "= merlin > logoize-all ================================================"
+echo "  input_dir:  ${input_dir}"
+echo "  output_dir: ${output_dir}"
+echo "  logo:       ${logo}"
+echo "  date:       ${date}"
 echo "======================================================================="
 #------------------------------------------------------------------------------
 # Input validation, ensure required values are set, otherwise exit.
 #------------------------------------------------------------------------------
 if [ ${input_dir} == "null" ]; then
   echo "Input Error: --input_dir is required"
-  echo "      Usage: resize-all.sh --input_dir /dir/of/images"
+  echo "      Usage: logoize-all.sh --input_dir /dir/of/images"
   exit 1
 fi
 
 if [ ${output_dir} == "null" ]; then
   echo "Input Error: --output_dir is required"
-  echo "      Usage: resize-all.sh --output_dir /tmp/images"
+  echo "      Usage: logoize-all.sh --output_dir /tmp/images"
+  exit 1
+fi
+
+if [ ${logo} == "null" ]; then
+  echo "Input Error: --logo is required"
+  echo "      Usage: ./logoize-all.sh --logo mylogo.png"
   exit 1
 fi
 #------------------------------------------------------------------------------
@@ -45,7 +53,9 @@ fi
 #------------------------------------------------------------------------------
 image_list=(${input_dir}/*)
 for ((i=0; i<${#image_list[@]}; i++)); do
-    echo "Start resizing: ${image_list[$i]}"
-    resize-one.sh --image ${image_list[$i]} --output_dir ${output_dir}
-    echo "Complete resizing: ${image_list[$i]}"
+    echo "Start logoizing: ${image_list[$i]} with logo ${logo}"
+    logoize-one.sh --image ${image_list[$i]} \
+      --output_dir ${output_dir} \
+      --logo ${logo}
+    echo "Complete logoizing: ${image_list[$i]}"
 done

@@ -1,13 +1,9 @@
 #!/bin/bash
 #------------------------------------------------------------------------------
-# Options extract-section
+# Options for crop-all
 #------------------------------------------------------------------------------
-input=${input:-null}
-output=${output:-null}
-width=${width:-100}
-height=${height:-100}
-x=${x:-0}
-y=${y:-0}
+input_dir=${input_dir:-null}
+output_dir=${output_dir:-null}
 #------------------------------------------------------------------------------
 # Parse input options
 #------------------------------------------------------------------------------
@@ -23,32 +19,33 @@ done
 #------------------------------------------------------------------------------
 date=${date:-$(date +%Y-%m-%d)}
 #------------------------------------------------------------------------------
-# Print extract-section options
+# Print crop-all options
 #------------------------------------------------------------------------------
-echo "= merlin > extract-section ============================================"
-echo "  input:  ${input}"
-echo "  output: ${output}"
-echo "  width:  ${width}"
-echo "  height: ${height}"
-echo "  x:      ${x}"
-echo "  y:      ${y}"
-echo "  date:   ${date}"
+echo "= merlin > crop-all ==================================================="
+echo "  input_dir:        ${input_dir}"
+echo "  output_dir:       ${output_dir}"
+echo "  date:             ${date}"
 echo "======================================================================="
 #------------------------------------------------------------------------------
 # Input validation, ensure required values are set, otherwise exit.
 #------------------------------------------------------------------------------
-if [ ${input} == "null" ]; then
-  echo "Input Error: --input is required"
-  echo "      Usage: ./extract-section.sh --input myimage.png"
+if [ ${input_dir} == "null" ]; then
+  echo "Input Error: --input_dir is required"
+  echo "      Usage: crop-all.sh --input_dir /dir/of/images"
   exit 1
 fi
 
-if [ ${output} == "null" ]; then
-  echo "Input Error: --output is required"
-  echo "      Usage: ./extract-section.sh --output myimage-section.png"
+if [ ${output_dir} == "null" ]; then
+  echo "Input Error: --output_dir is required"
+  echo "      Usage: crop-all.sh --output_dir /tmp/images"
   exit 1
 fi
 #------------------------------------------------------------------------------
-# Extract section from inout image
+# Crop all images in input_dir
 #------------------------------------------------------------------------------
-magick ${input} -crop ${width}x${height}+${x}+${y} ${output}
+image_list=(${input_dir}/*)
+for ((i=0; i<${#image_list[@]}; i++)); do
+    echo "Start cropping: ${image_list[$i]}"
+    crop-one.sh --image ${image_list[$i]} --output_dir ${output_dir}
+    echo "Complete cropping: ${image_list[$i]}"
+done
