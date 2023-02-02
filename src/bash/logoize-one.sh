@@ -5,6 +5,7 @@
 image=${image:-null}
 logo=${logo:-null}
 output_dir=${output_dir:-null}
+output_image=${output_image:-null}
 format=${format:-png}
 gravity=${gravity:-southeast}
 geometry=${geometry:-+25+25}
@@ -29,15 +30,16 @@ date=${date:-$(date +%Y-%m-%d)}
 # Print logoize-one options
 #------------------------------------------------------------------------------
 echo "= merlin > logoize-one ================================================"
-echo "  logo:       ${logo}"
-echo "  image:      ${image}"
-echo "  output_dir: ${output_dir}"
-echo "  format:     ${format}"
-echo "  gravity:    ${gravity}"
-echo "  geometry:   ${geometry}"
-echo "  file_name:  ${file_name}"
-echo "  file_ext:   ${file_ext}"
-echo "  date:       ${date}"
+echo "  logo:         ${logo}"
+echo "  image:        ${image}"
+echo "  output_dir:   ${output_dir}"
+echo "  output_image: ${output_image}"
+echo "  format:       ${format}"
+echo "  gravity:      ${gravity}"
+echo "  geometry:     ${geometry}"
+echo "  file_name:    ${file_name}"
+echo "  file_ext:     ${file_ext}"
+echo "  date:         ${date}"
 echo "======================================================================"
 #------------------------------------------------------------------------------
 # Input validation, ensure required values are set, otherwise exit.
@@ -62,10 +64,13 @@ fi
 #------------------------------------------------------------------------------
 # Imagemagick convert function to add logo
 #------------------------------------------------------------------------------
+if [ ${output_image} == "null" ]; then
+  output_image=${file_name}-logoized.${file_ext}
+fi
 convert ${image} ${logo} \
   -gravity ${gravity} \
   -geometry ${geometry} \
   -format ${format} \
   -composite \
-  ${output_dir}/${file_name}-logoized.${file_ext}
-echo "Logoized complete: ${output_dir}/${file_name}-logoized.${file_ext}"
+  ${output_dir}/${output_image}
+echo "Logoize complete: ${output_dir}/${output_image}"

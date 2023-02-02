@@ -4,6 +4,7 @@
 #------------------------------------------------------------------------------
 image=${image:-null}
 output_dir=${output_dir:-null}
+output_image=${output_image:-null}
 width=${width:-150}  # Width is 1.5 times width of logo
 height=${height:-90} # Height is 2 times height of logo
 x=${x:-0}
@@ -32,14 +33,15 @@ date=${date:-$(date +%Y-%m-%d)}
 # Print crop-one options
 #------------------------------------------------------------------------------
 echo "= merlin > crop-one =================================================="
-echo "  image:      ${image}"
-echo "  output_dir: ${output_dir}"
-echo "  width:      ${width}"
-echo "  height:     ${height}"
-echo "  x:          ${x}"
-echo "  y:          ${y}"
-echo "  gravity:    ${gravity}"
-echo "  date:       ${date}"
+echo "  image:        ${image}"
+echo "  output_dir:   ${output_dir}"
+echo "  output_image: ${output_image}"
+echo "  width:        ${width}"
+echo "  height:       ${height}"
+echo "  x:            ${x}"
+echo "  y:            ${y}"
+echo "  gravity:      ${gravity}"
+echo "  date:         ${date}"
 echo "======================================================================="
 #------------------------------------------------------------------------------
 # Input validation, ensure required values are set, otherwise exit.
@@ -58,6 +60,10 @@ fi
 #------------------------------------------------------------------------------
 # Extract section from inout image
 #------------------------------------------------------------------------------
+if [ ${output_image} == "null" ]; then
+  output_image=${file_name}-cropped-${width}x${height}.${file_ext}
+fi
 magick ${image} -gravity ${gravity} \
   -crop ${width}x${height}+${x}+${y} \
-  ${output_dir}/${file_name}-crop-${width}x${height}+${x}+${y}.${file_ext}
+  ${output_dir}/${output_image}
+echo "Crop complete: ${output_dir}/${output_image}"

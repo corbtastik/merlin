@@ -4,6 +4,7 @@
 #------------------------------------------------------------------------------
 image=${image:-null}
 output_dir=${output_dir:-null}
+output_image=${output_image:-null}
 landscape_width=${landscape_width:-1024}
 landscape_height=${landscape_height:-768}
 portrait_width=${portrait_width:-1024}
@@ -33,6 +34,7 @@ date=${date:-$(date +%Y-%m-%d)}
 echo "= merlin > resize-one ================================================="
 echo "  image:            ${image}"
 echo "  output_dir:       ${output_dir}"
+echo "  output_image:     ${output_image}"
 echo "  landscape_width:  ${landscape_width}"
 echo "  landscape_height: ${landscape_height}"
 echo "  portrait_width:   ${portrait_width}"
@@ -43,7 +45,7 @@ echo "  file_ext:         ${file_ext}"
 echo "  date:             ${date}"
 echo "======================================================================="
 #------------------------------------------------------------------------------
-# Input validation, ensure required values are set, otherwise exit.
+# Required input, ensure values are set, otherwise exit.
 #------------------------------------------------------------------------------
 if [ ${image} == "null" ]; then
   echo "Input Error: --image is required"
@@ -60,17 +62,23 @@ fi
 # Resize image based on orientation 1=landscape, 0=portrait or square.
 #------------------------------------------------------------------------------
 if [[ ${orientation} -eq 1 ]]; then
-    convert ${image} \
-        -resize ${landscape_width}x${landscape_height}^ \
-        -gravity center \
-        -extent ${landscape_width}x${landscape_height} \
-        ${output_dir}/${file_name}-${landscape_width}x${landscape_height}.${file_ext}
-    echo "Resize complete: ${output_dir}/${file_name}-${landscape_width}x${landscape_height}.${file_ext}"
+  if [ ${output_image} == "null" ]; then
+    output_image=${file_name}-resized-${landscape_width}x${landscape_height}.${file_ext}
+  fi
+  convert ${image} \
+      -resize ${landscape_width}x${landscape_height}^ \
+      -gravity center \
+      -extent ${landscape_width}x${landscape_height} \
+      ${output_dir}/${output_image}
+  echo "Resize complete: ${output_dir}/${output_image}"
 else
-    convert ${image} \
-        -resize ${portrait_width}x${portrait_height}^ \
-        -gravity center \
-        -extent ${portrait_width}x${portrait_height} \
-        ${output_dir}/${file_name}-${portrait_width}x${portrait_height}.${file_ext}
-    echo "Resized complete: ${output_dir}/${file_name}-${portrait_width}x${portrait_height}.${file_ext}"
+  if [ ${output_image} == "null" ]; then
+    output_image=${file_name}-resized-${portrait_width}x${portrait_height}.${file_ext}
+  fi
+  convert ${image} \
+      -resize ${portrait_width}x${portrait_height}^ \
+      -gravity center \
+      -extent ${portrait_width}x${portrait_height} \
+      ${output_dir}/${output_image}
+  echo "Resize complete: ${output_dir}/${output_image}"
 fi
